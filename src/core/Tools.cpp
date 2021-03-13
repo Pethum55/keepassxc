@@ -22,8 +22,10 @@
 #include "config-keepassx.h"
 #include "git-info.h"
 
+#include <QCoreApplication>
 #include <QElapsedTimer>
-#include <QImageReader>
+#include <QEventLoop>
+#include <QIODevice>
 #include <QLocale>
 #include <QMetaProperty>
 #include <QRegularExpression>
@@ -167,24 +169,6 @@ namespace Tools
             data = result;
             return true;
         }
-    }
-
-    QString imageReaderFilter()
-    {
-        const QList<QByteArray> formats = QImageReader::supportedImageFormats();
-        QStringList formatsStringList;
-
-        for (const QByteArray& format : formats) {
-            for (char codePoint : format) {
-                if (!QChar(codePoint).isLetterOrNumber()) {
-                    continue;
-                }
-            }
-
-            formatsStringList.append("*." + QString::fromLatin1(format).toLower());
-        }
-
-        return formatsStringList.join(" ");
     }
 
     bool isHex(const QByteArray& ba)
